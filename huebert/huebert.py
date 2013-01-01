@@ -27,6 +27,8 @@ def main():
     cont.register()
 
     aud = audio.Audio('/home/john/music/Kylie Minogue/Spinning Around (Disc 1)/01 Spinning Around.mp3', cont)
+    # aud = audio.Audio('/home/john/music/Parry Gripp/Fuzzy Fuzzy Cute Cute_ Volume 1/01 Fuzzy Fuzzy Cute Cute.m4a', cont)
+
     aud.play()
 
 if __name__ == '__main__':
