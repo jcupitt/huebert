@@ -93,16 +93,10 @@ class Controller:
         return output
 
     def set_light(self, lamp, state):
-        print 'set_light %d' % self.n_change
-        self.n_change += 1
-
-        # wait if this is too soon
-        while True:
-            new_time = time.time() 
-            if new_time - self.last_time > 1.0 / self.max_updates:
-                break
-            time.sleep(0.001)
-        print('set_light: waited for %f' % (new_time - self.last_time))
+        # ignore if this is too soon
+        new_time = time.time() 
+        if new_time - self.last_time < 1.0 / self.max_updates:
+            return
         self.last_time = new_time
 
         location = '/'.join([str(self.app_key), 'lights', 
@@ -156,18 +150,19 @@ class Controller:
 
         self.init = True
 
-#logging.basicConfig(level = logging.DEBUG)
+if __name__ == '__main__':
+    #logging.basicConfig(level = logging.DEBUG)
 
-# "hue" is bound in /etc/hosts to the ip address of my hue controller
-controller = Controller('huebert', 0xdeadbeef, "http://hue")
+    # "hue" is bound in /etc/hosts to the ip address of my hue controller
+    controller = Controller('huebert', 0xdeadbeef, "http://hue")
 
-controller.register()
+    controller.register()
 
-while True:
-    light = random.randint(1, 3)
-    hue = random.randint(0, 65535)
-    sat = 254
-    bri = 254
+    while True:
+        light = random.randint(1, 3)
+        hue = random.randint(0, 65535)
+        sat = 254
+        bri = 254
 
-    controller.set_light(light, {"bri": bri, "hue": hue, "sat": sat, 
-                             "on": True, "transitiontime": 0})
+        controller.set_light(light, {"bri": bri, "hue": hue, "sat": sat, 
+                                 "on": True, "transitiontime": 0})

@@ -11,6 +11,7 @@
 
 import sys
 import logging
+import random
 
 import gobject
 gobject.threads_init()
@@ -40,12 +41,14 @@ class Error(Exception):
         return '%s - %s' % (self.message, self.detail)
 
 class Audio:
-    def __init__(self, location):
+    def __init__(self, location, controller = None):
         # these are set in on_handoff() from the stream caps
         self.signed = None
         self.depth = None
         self.rate = None
         self.channels = None
+
+        self.controller = controller
 
         # The pipeline
         self.pipeline = gst.Pipeline()
@@ -98,10 +101,10 @@ class Audio:
         # The MainLoop
         self.mainloop = gobject.MainLoop()
 
-        # And off we go!
+    def play(self):
         self.pipeline.set_state(gst.STATE_PLAYING)
         self.mainloop.run()
-        
+
     def on_new_decoded_pad(self, element, pad, last):
         caps = pad.get_caps()
         name = caps[0].get_name()
@@ -158,9 +161,23 @@ class Audio:
             sm += ord(raw[i])
         #print sm
 
-logging.basicConfig(level = logging.DEBUG)
+        if self.controller:
+            light = random.randint(1, 3)
+            hue = random.randint(0, 65535)
+            sat = 254
+            bri = 254 * random.randint(0, 1)
 
-if len(sys.argv) == 2:
-    Audio(sys.argv[1])
-else:
-    print 'Usage: %s /path/to/media/file' % sys.argv[0]
+            self.controller.set_light(light, 
+                                      {"bri": bri, 
+                                       "hue": hue, 
+                                       "sat": sat, 
+                                       "on": True, 
+                                       "transitiontime": 3})
+
+if __name__ == '__main__':
+    logging.basicConfig(level = logging.DEBUG)
+
+    if len(sys.argv) == 2:
+        Audio(sys.argv[1])
+    else:
+        print 'Usage: %s /path/to/media/file' % sys.argv[0]
