@@ -36,21 +36,22 @@ class Controller:
 
         reply = requests.post(url, post_data) 
 
-        output = reply.json()
+        output = reply.json
 
         logging.debug('reply = %s' % output)
 
         return output
 
     def get(self, location = None):
+        logging.debug('get: location = %s' % location)
+
         url = self.hue_url + '/api'
         if location:
             url += '/' + location
 
-        logging.debug('get: url = %s' % url)
         reply = requests.get(url)
 
-        output = reply.json()
+        output = reply.json
 
         logging.debug('reply = %s' % output)
 
@@ -67,7 +68,7 @@ class Controller:
 
         reply = requests.put(url, put_data) 
 
-        output = reply.json()
+        output = reply.json
 
         logging.debug('reply = %s' % output)
 
@@ -92,15 +93,13 @@ class Controller:
                                                separators=(',', ':')))
 
     def json_iserror(self, reply):
-        logging.debug('json_iserror: %s' % reply)
-
-        if len(reply) != 1:
-            return  False
-        keys = reply[0].keys()
-        if len(keys) != 1:
-            return  False
-        if keys[0] != "error":
-            return  False
+            if len(reply) != 1:
+                return  False
+            keys = reply[0].keys()
+            if len(keys) != 1:
+                return  False
+            if keys[0] != "error":
+                return  False
 
             return  True
 

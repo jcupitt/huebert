@@ -10,8 +10,13 @@ import optparse
 import audio
 import controller
 
+music = '/home/john/music/'
+track = music + 'Kylie Minogue/Spinning Around (Disc 1)/01 Spinning Around.mp3'
+#track = music + 'Parry Gripp/Fuzzy Fuzzy Cute Cute_ Volume 1/03 Cat Flushing A Toilet.m4a'
+
 def main():
     global options
+    global track
 
     parser = optparse.OptionParser()
     parser.add_option("-d", "--debug", 
@@ -26,8 +31,7 @@ def main():
     cont = controller.Controller('huebert', 0xdeadbeef, "http://hue")
     cont.register()
 
-    aud = audio.Audio('/home/john/music/Kylie Minogue/Spinning Around (Disc 1)/01 Spinning Around.mp3', cont)
-    # aud = audio.Audio('/home/john/music/Parry Gripp/Fuzzy Fuzzy Cute Cute_ Volume 1/01 Fuzzy Fuzzy Cute Cute.m4a', cont)
+    aud = audio.Audio(track, cont)
 
     aud.play()
 
