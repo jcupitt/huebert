@@ -12,7 +12,7 @@ import controller
 
 music = '/home/john/music/'
 track = music + 'Kylie Minogue/Spinning Around (Disc 1)/01 Spinning Around.mp3'
-#track = music + 'Parry Gripp/Fuzzy Fuzzy Cute Cute_ Volume 1/03 Cat Flushing A Toilet.m4a'
+track = music + 'Parry Gripp/Fuzzy Fuzzy Cute Cute_ Volume 1/03 Cat Flushing A Toilet.m4a'
 
 def main():
     global options
