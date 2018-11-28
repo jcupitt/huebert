@@ -1,6 +1,4 @@
-=======
-huebert
-=======
+# huebert
 
 This program will attempt to play music and pulse a set of Philips Hue
 lightblubs in time.
